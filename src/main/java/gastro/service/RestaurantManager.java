@@ -16,6 +16,7 @@ public class RestaurantManager {
     @Transactional
     public Restaurant saveOrUpdateRestaurant(Restaurant restaurant){
         restaurant.setId(UUID.randomUUID().toString().split("-")[0]);
+        restaurant.setRestaurantRating(restaurant.getFirstRating().getRestaurantRating() + restaurant.getSecondRating().getRestaurantRating());
         return restaurantRepository.save(restaurant);
     }
     @Transactional
