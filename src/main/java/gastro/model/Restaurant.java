@@ -1,15 +1,14 @@
 package gastro.model;
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @Document(collection = "restaurants")
 @Data
 public class Restaurant {
@@ -21,5 +20,21 @@ public class Restaurant {
     private String country;
     private Rating firstRating;
     private Rating secondRating;
-    private double restaurantRating = firstRating.restaurantRating + secondRating.restaurantRating;
+    @Getter
+    private double restaurantRating;
+
+    public Restaurant() {
+    }
+
+    public Restaurant(String name, String address, String city, String country,
+            Rating firstRating, Rating secondRating) {
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.firstRating = firstRating;
+        this.secondRating = secondRating;
+    }
+
 }
+
