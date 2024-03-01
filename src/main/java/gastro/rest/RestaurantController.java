@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = REST_URL)
 public class RestaurantController {
+
     public static final String SAVE_OR_UPDATE_RESTAURANT = "/restaurants/save-or-update";
     public static final String FIND_ALL_RESTAURANTS = "/restaurants/find";
     public static final String FIND_RESTAURANT_BY_NAME = "/restaurants/find/{name}";
@@ -32,27 +33,27 @@ public class RestaurantController {
 
     @PostMapping(value = SAVE_OR_UPDATE_RESTAURANT)
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant createRestaurant(@RequestBody Restaurant restaurant){
+    public Restaurant createRestaurant(@RequestBody Restaurant restaurant) {
         return restaurantManager.saveOrUpdateRestaurant(restaurant);
     }
 
     @GetMapping(value = FIND_ALL_RESTAURANTS)
-    public List<Restaurant> getRestaurants(){
+    public List<Restaurant> getRestaurants() {
         return restaurantManager.findAllRestaurants();
     }
 
     @GetMapping(value = FIND_RESTAURANT_BY_NAME)
-    public Restaurant getRestaurant(@PathVariable String name){
+    public Restaurant getRestaurant(@PathVariable String name) {
         return restaurantManager.getRestaurantByName(name);
     }
 
     @GetMapping(value = FIND_RESTAURANT_BY_RATING)
-    public List<Restaurant> getRestaurantsByRating(@PathVariable double rating){
+    public List<Restaurant> getRestaurantsByRating(@PathVariable double rating) {
         return restaurantManager.getRestaurantByRating(rating);
     }
 
     @DeleteMapping(value = DELETE_RESTAURANT)
-    public String deleteTask(@PathVariable String id){
+    public String deleteTask(@PathVariable String id) {
         return restaurantManager.deleteTask(id);
     }
 }
