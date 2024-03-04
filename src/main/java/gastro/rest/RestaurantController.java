@@ -4,7 +4,6 @@ import static gastro.constants.Constants.REST_URL;
 
 import gastro.model.Restaurant;
 import gastro.service.RestaurantManager;
-import gastro.service.RestaurantManagerImpl;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
