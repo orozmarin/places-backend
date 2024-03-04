@@ -49,7 +49,7 @@ public class RestaurantController {
 
     @GetMapping(value = FIND_RESTAURANT_BY_RATING)
     public List<Restaurant> getRestaurantsByRating(@PathVariable double rating) {
-        return restaurantManager.getRestaurantByRating(rating);
+        return restaurantManager.getRestaurantsByRating(rating);
     }
 
     @DeleteMapping(value = DELETE_RESTAURANT)
