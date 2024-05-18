@@ -10,7 +10,7 @@ public class Rating {
     private final double priceRating;
     private final double restaurantRating;
 
-    public Rating(double ambientRating, double foodRating, double priceRating) {
+    public Rating(double ambientRating, double foodRating, double priceRating, double restaurantRating) {
         this.ambientRating = ambientRating;
         this.foodRating = foodRating;
         this.priceRating = priceRating;
