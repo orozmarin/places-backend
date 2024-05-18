@@ -33,7 +33,7 @@ public class RestaurantController {
 
     @PostMapping(value = SAVE_OR_UPDATE_RESTAURANT)
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant createRestaurant(@RequestBody Restaurant restaurant) {
+    public Restaurant saveOrUpdateRestaurant(@RequestBody Restaurant restaurant) {
         return restaurantManager.saveOrUpdateRestaurant(restaurant);
     }
 
