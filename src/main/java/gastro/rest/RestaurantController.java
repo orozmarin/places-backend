@@ -26,7 +26,7 @@ public class RestaurantController {
     public static final String FIND_ALL_RESTAURANTS = "/restaurants/find";
     public static final String FIND_RESTAURANT_BY_NAME = "/restaurants/find/{name}";
     public static final String FIND_RESTAURANT_BY_RATING = "/restaurants/find/rating/{rating}";
-    public static final String DELETE_RESTAURANT = "/restaurants/delete/{id}";
+    public static final String DELETE_RESTAURANT = "/restaurants/delete/{placeId}";
 
     @Autowired
     private RestaurantManager restaurantManager;
@@ -52,8 +52,8 @@ public class RestaurantController {
         return restaurantManager.getRestaurantsByRating(rating);
     }
 
-    @DeleteMapping(value = DELETE_RESTAURANT)
-    public String deleteTask(@PathVariable String id) {
-        return restaurantManager.deleteTask(id);
+    @PostMapping(value = DELETE_RESTAURANT)
+    public String deleteTask(@PathVariable String placeId) {
+        return restaurantManager.deleteTask(placeId);
     }
 }
