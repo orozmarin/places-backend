@@ -8,12 +8,12 @@ public class Rating {
     private final double ambientRating;
     private final double foodRating;
     private final double priceRating;
-    private final double restaurantRating;
+    private final double placeRating;
 
-    public Rating(double ambientRating, double foodRating, double priceRating, double restaurantRating) {
+    public Rating(double ambientRating, double foodRating, double priceRating, double placeRating) {
         this.ambientRating = ambientRating;
         this.foodRating = foodRating;
         this.priceRating = priceRating;
-        this.restaurantRating = ambientRating + foodRating + priceRating;
+        this.placeRating = ambientRating + foodRating + priceRating;
     }
 }
