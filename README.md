@@ -1,2 +1,2 @@
-# gastrorade-service
-Backend service for GastroRate application.
+# Places Service
+Backend service for Places app.
