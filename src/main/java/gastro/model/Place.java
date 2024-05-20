@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Builder
 @AllArgsConstructor
-@Document(collection = "restaurants")
+@Document(collection = "places")
 @Data
-public class Restaurant {
+public class Place {
 
     @Id
     private String id;
@@ -23,12 +23,12 @@ public class Restaurant {
     private Rating firstRating;
     private Rating secondRating;
     @Getter
-    private double restaurantRating;
+    private double placeRating;
 
-    public Restaurant() {
+    public Place() {
     }
 
-    public Restaurant(String name, String address, String city, Integer postalCode, String country,
+    public Place(String name, String address, String city, Integer postalCode, String country,
             Rating firstRating, Rating secondRating) {
         this.name = name;
         this.address = address;
