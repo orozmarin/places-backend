@@ -1,9 +1,9 @@
-package gastro.rest;
+package places.rest;
 
-import static gastro.constants.Constants.REST_URL;
+import static places.constants.Constants.REST_URL;
 
-import gastro.model.Place;
-import gastro.service.PlaceManager;
+import places.model.Place;
+import places.service.PlaceManager;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
