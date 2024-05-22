@@ -1,6 +1,6 @@
-package gastro.service;
+package places.service;
 
-import gastro.model.Place;
+import places.model.Place;
 import java.util.List;
 
 public interface PlaceManager {

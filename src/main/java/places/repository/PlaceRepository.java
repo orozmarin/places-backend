@@ -1,6 +1,6 @@
-package gastro.repository;
+package places.repository;
 
-import gastro.model.Place;
+import places.model.Place;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
