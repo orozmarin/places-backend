@@ -1,7 +1,7 @@
-package gastro.service;
+package places.service;
 
-import gastro.model.Place;
-import gastro.repository.PlaceRepository;
+import places.model.Place;
+import places.repository.PlaceRepository;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

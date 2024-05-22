@@ -1,4 +1,4 @@
-package gastro;
+package places;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableMongoRepositories
-public class GastrorateApplication {
+public class PlacesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GastrorateApplication.class, args);
+        SpringApplication.run(PlacesApplication.class, args);
     }
 }

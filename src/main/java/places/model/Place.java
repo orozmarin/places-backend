@@ -1,4 +1,4 @@
-package gastro.model;
+package places.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
