@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlaceRepository extends MongoRepository<Place, String> {
+
     @Query("{name:'?0'}")
     Place findPlaceByName(String name);
+
     List<Place> findByPlaceRating(double rating);
 }

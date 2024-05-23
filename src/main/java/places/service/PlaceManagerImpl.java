@@ -1,6 +1,7 @@
 package places.service;
 
 import places.model.Place;
+import places.model.PlaceSearchForm;
 import places.repository.PlaceRepository;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class PlaceManagerImpl implements PlaceManager {
     }
 
     @Override
-    public List<Place> findAllPlaces() {
+    public List<Place> findAllPlaces(PlaceSearchForm placeSearchForm) {
         return placeRepository.findAll();
     }
 
