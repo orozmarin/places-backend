@@ -1,5 +1,6 @@
 package places.model;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,14 +23,18 @@ public class Place {
     private String country;
     private Rating firstRating;
     private Rating secondRating;
+
     @Getter
     private double placeRating;
+    private LocalDateTime visitedAt;
+    private LocalDateTime createdAt;
+
 
     public Place() {
     }
 
     public Place(String name, String address, String city, Integer postalCode, String country,
-            Rating firstRating, Rating secondRating) {
+            Rating firstRating, Rating secondRating, LocalDateTime createdAt, LocalDateTime visitedAt) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -37,6 +42,8 @@ public class Place {
         this.country = country;
         this.firstRating = firstRating;
         this.secondRating = secondRating;
+        this.createdAt = createdAt;
+        this.visitedAt = visitedAt;
     }
 
 }
