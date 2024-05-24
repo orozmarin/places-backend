@@ -1,11 +1,13 @@
 package places.service;
 
-import places.model.Place;
-import places.repository.PlaceRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import places.model.Place;
+import places.model.PlaceSearchForm;
+import places.repository.PlaceRepository;
 
 @Service
 public class PlaceManagerImpl implements PlaceManager {
@@ -20,12 +22,13 @@ public class PlaceManagerImpl implements PlaceManager {
         }
         place.setPlaceRating(
                 place.getFirstRating().getPlaceRating() + place.getSecondRating().getPlaceRating());
+        place.setCreatedAt(LocalDateTime.now());
         return placeRepository.save(place);
     }
 
     @Override
-    public List<Place> findAllPlaces() {
-        return placeRepository.findAll();
+    public List<Place> findAllPlaces(PlaceSearchForm placeSearchForm) {
+        return placeRepository.findPlacesBySearchForm(placeSearchForm);
     }
 
     @Override

@@ -3,6 +3,7 @@ package places.rest;
 import static places.constants.Constants.REST_URL;
 
 import places.model.Place;
+import places.model.PlaceSearchForm;
 import places.service.PlaceManager;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +38,8 @@ public class PlaceController {
     }
 
     @GetMapping(value = FIND_ALL_PLACES)
-    public List<Place> getPlaces() {
-        return placeManager.findAllPlaces();
+    public List<Place> getPlaces(@RequestBody PlaceSearchForm placeSearchForm) {
+        return placeManager.findAllPlaces(placeSearchForm);
     }
 
     @GetMapping(value = FIND_PLACE_BY_NAME)
