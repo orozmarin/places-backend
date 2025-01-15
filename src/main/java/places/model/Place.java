@@ -27,14 +27,13 @@ public class Place {
     @Getter
     private double placeRating;
     private LocalDateTime visitedAt;
-    private LocalDateTime createdAt;
 
 
     public Place() {
     }
 
     public Place(String name, String address, String city, Integer postalCode, String country,
-            Rating firstRating, Rating secondRating, LocalDateTime createdAt, LocalDateTime visitedAt) {
+            Rating firstRating, Rating secondRating, LocalDateTime visitedAt) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -42,7 +41,6 @@ public class Place {
         this.country = country;
         this.firstRating = firstRating;
         this.secondRating = secondRating;
-        this.createdAt = createdAt;
         this.visitedAt = visitedAt;
     }
 

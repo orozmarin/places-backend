@@ -22,7 +22,6 @@ public class PlaceManagerImpl implements PlaceManager {
         }
         place.setPlaceRating(
                 place.getFirstRating().getPlaceRating() + place.getSecondRating().getPlaceRating());
-        place.setCreatedAt(LocalDateTime.now());
         return placeRepository.save(place);
     }
 
