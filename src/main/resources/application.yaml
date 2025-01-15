@@ -1,5 +1,5 @@
 spring:
   data:
     mongodb:
-      uri : mongodb+srv://admin:admin@gastrocluster0.rmtctnw.mongodb.net/?retryWrites=true&w=majority&appName=GastroCluster0
+      uri : mongodb+srv://admin:TF4fxmb8j0DZ60uh@gastrocluster0.rmtctnw.mongodb.net/?retryWrites=true&w=majority&appName=GastroCluster0
       database: gastrorate
