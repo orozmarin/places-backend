@@ -27,6 +27,9 @@ public class Place {
     private List<Photo> photos;
     private PriceLevel priceLevel;
     private List<PlaceReview> reviews;
+    private Integer googleRating;
+    private String url;
+    private String webSiteUrl;
     private Rating firstRating;
     private Rating secondRating;
 
@@ -40,7 +43,8 @@ public class Place {
 
     public Place(String name, String address, String city, Integer postalCode, String country, String contactNumber,
             PlaceOpeningHours openingHours, List<Photo> photos, PriceLevel priceLevel,
-            List<PlaceReview> reviews, Rating firstRating, Rating secondRating, LocalDateTime visitedAt) {
+            List<PlaceReview> reviews, Integer googleRating, String url, String webSiteUrl, Rating firstRating,
+            Rating secondRating, LocalDateTime visitedAt) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -51,6 +55,9 @@ public class Place {
         this.photos = photos;
         this.priceLevel = priceLevel;
         this.reviews = reviews;
+        this.googleRating = googleRating;
+        this.url = url;
+        this.webSiteUrl = webSiteUrl;
         this.firstRating = firstRating;
         this.secondRating = secondRating;
         this.visitedAt = visitedAt;
