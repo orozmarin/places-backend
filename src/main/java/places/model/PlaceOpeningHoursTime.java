@@ -9,10 +9,7 @@ import lombok.Data;
 @Data
 public class PlaceOpeningHoursTime {
     private Integer day;
-    private Integer hours;
-    private Integer minutes;
     private String time;
-    private Integer nextDate;
 
     public PlaceOpeningHoursTime() {
     }

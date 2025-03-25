@@ -5,5 +5,6 @@ public enum PriceLevel {
     INEXPENSIVE,
     MODERATE,
     EXPENSIVE,
-    VERY_EXPENSIVE
+    VERY_EXPENSIVE,
+    UNKNOWN
 }
