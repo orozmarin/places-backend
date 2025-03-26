@@ -27,7 +27,7 @@ public class Place {
     private List<Photo> photos;
     private PriceLevel priceLevel;
     private List<PlaceReview> reviews;
-    private Integer googleRating;
+    private Double googleRating;
     private String url;
     private String webSiteUrl;
     private Rating firstRating;
@@ -43,7 +43,7 @@ public class Place {
 
     public Place(String name, String address, String city, Integer postalCode, String country, String contactNumber,
             PlaceOpeningHours openingHours, List<Photo> photos, PriceLevel priceLevel,
-            List<PlaceReview> reviews, Integer googleRating, String url, String webSiteUrl, Rating firstRating,
+            List<PlaceReview> reviews, Double googleRating, String url, String webSiteUrl, Rating firstRating,
             Rating secondRating, LocalDateTime visitedAt) {
         this.name = name;
         this.address = address;
