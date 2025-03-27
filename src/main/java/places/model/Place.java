@@ -30,6 +30,7 @@ public class Place {
     private Double googleRating;
     private String url;
     private String webSiteUrl;
+    private Coordinates coordinates;
     private Rating firstRating;
     private Rating secondRating;
 
@@ -42,7 +43,7 @@ public class Place {
     }
 
     public Place(String name, String address, String city, Integer postalCode, String country, String contactNumber,
-            PlaceOpeningHours openingHours, List<Photo> photos, PriceLevel priceLevel,
+            PlaceOpeningHours openingHours, List<Photo> photos, PriceLevel priceLevel, Coordinates coordinates,
             List<PlaceReview> reviews, Double googleRating, String url, String webSiteUrl, Rating firstRating,
             Rating secondRating, LocalDateTime visitedAt) {
         this.name = name;
@@ -58,6 +59,7 @@ public class Place {
         this.googleRating = googleRating;
         this.url = url;
         this.webSiteUrl = webSiteUrl;
+        this.coordinates = coordinates;
         this.firstRating = firstRating;
         this.secondRating = secondRating;
         this.visitedAt = visitedAt;
