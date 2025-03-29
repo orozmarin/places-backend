@@ -37,10 +37,10 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 orders.add(Sort.Order.desc("placeRating"));
                 break;
             case DATE_ASC:
-                orders.add(Sort.Order.asc("createdAt"));
+                orders.add(Sort.Order.asc("visitedAt"));
                 break;
             case DATE_DESC:
-                orders.add(Sort.Order.desc("createdAt"));
+                orders.add(Sort.Order.desc("visitedAt"));
                 break;
             default:
                 throw new IllegalArgumentException("Invalid sorting method");
