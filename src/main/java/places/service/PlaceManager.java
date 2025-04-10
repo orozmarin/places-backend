@@ -7,8 +7,7 @@ import places.model.PlaceSearchForm;
 public interface PlaceManager {
     Place saveOrUpdatePlace(Place place);
     List<Place> findAllPlaces(PlaceSearchForm placeSearchForm);
-    Place getPlaceByName(String name);
-    List<Place> getPlaceByRating(double rating);
+    List<Place> findFavoritePlaces();
     String deletePlace(String placeId);
 
 }

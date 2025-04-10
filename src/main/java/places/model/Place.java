@@ -37,6 +37,7 @@ public class Place {
     @Getter
     private double placeRating;
     private LocalDateTime visitedAt;
+    private Boolean isFavorite;
 
 
     public Place() {
@@ -45,7 +46,7 @@ public class Place {
     public Place(String name, String address, String city, Integer postalCode, String country, String contactNumber,
             PlaceOpeningHours openingHours, List<Photo> photos, PriceLevel priceLevel, Coordinates coordinates,
             List<PlaceReview> reviews, Double googleRating, String url, String webSiteUrl, Rating firstRating,
-            Rating secondRating, LocalDateTime visitedAt) {
+            Rating secondRating, LocalDateTime visitedAt, Boolean isFavorite) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -63,6 +64,7 @@ public class Place {
         this.firstRating = firstRating;
         this.secondRating = secondRating;
         this.visitedAt = visitedAt;
+        this.isFavorite = isFavorite;
     }
 
 }

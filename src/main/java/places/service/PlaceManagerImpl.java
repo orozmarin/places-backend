@@ -31,13 +31,8 @@ public class PlaceManagerImpl implements PlaceManager {
     }
 
     @Override
-    public Place getPlaceByName(String name) {
-        return placeRepository.findPlaceByName(name);
-    }
-
-    @Override
-    public List<Place> getPlaceByRating(double rating) {
-        return placeRepository.findByPlaceRating(rating);
+    public List<Place> findFavoritePlaces(){
+        return placeRepository.findByIsFavorite(true);
     }
 
     @Override
