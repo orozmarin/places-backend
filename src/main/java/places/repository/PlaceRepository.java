@@ -10,8 +10,5 @@ import places.repository.qdls.PlaceRepositoryCustom;
 @Repository
 public interface PlaceRepository extends MongoRepository<Place, String>, PlaceRepositoryCustom {
 
-    @Query("{name:'?0'}")
-    Place findPlaceByName(String name);
-
-    List<Place> findByPlaceRating(double rating);
+    List<Place> findByIsFavorite(Boolean isFavorite);
 }
