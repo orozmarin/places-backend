@@ -24,9 +24,8 @@ public class PlaceController {
 
     public static final String SAVE_OR_UPDATE_PLACE = "/places/save-or-update";
     public static final String FIND_ALL_PLACES = "/places/find";
-    public static final String FIND_PLACE_BY_NAME = "/places/find/{name}";
-    public static final String FIND_PLACE_BY_RATING = "/places/find/rating/{rating}";
     public static final String DELETE_PLACE = "/places/delete/{placeId}";
+    public static final String FIND_FAVORITE_PLACES = "/places/find/favorites";
 
     @Autowired
     private PlaceManager placeManager;
@@ -42,18 +41,14 @@ public class PlaceController {
         return placeManager.findAllPlaces(placeSearchForm);
     }
 
-    @GetMapping(value = FIND_PLACE_BY_NAME)
-    public Place getPlace(@PathVariable String name) {
-        return placeManager.getPlaceByName(name);
-    }
-
-    @GetMapping(value = FIND_PLACE_BY_RATING)
-    public List<Place> getPlacesByRating(@PathVariable double rating) {
-        return placeManager.getPlaceByRating(rating);
-    }
-
     @PostMapping(value = DELETE_PLACE)
     public String deletePLace(@PathVariable String placeId) {
         return placeManager.deletePlace(placeId);
     }
+
+    @GetMapping(value = FIND_FAVORITE_PLACES)
+    public List<Place> getFavoritedPlaces() {
+        return placeManager.findFavoritePlaces();
+    }
+
 }

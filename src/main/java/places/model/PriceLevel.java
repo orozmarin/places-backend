@@ -6,5 +6,11 @@ public enum PriceLevel {
     MODERATE,
     EXPENSIVE,
     VERY_EXPENSIVE,
-    UNKNOWN
+    UNKNOWN,
+    // nearby place price levels
+    PRICE_LEVEL_FREE,
+    PRICE_LEVEL_INEXPENSIVE,
+    PRICE_LEVEL_MODERATE,
+    PRICE_LEVEL_EXPENSIVE,
+    PRICE_LEVEL_VERY_EXPENSIVE,
 }
