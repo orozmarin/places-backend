@@ -9,6 +9,7 @@ import places.model.RegisterRequest;
 import places.model.User;
 import places.model.User.UserStatus;
 import places.repository.UserRepository;
+import places.security.JwtService;
 
 @Service
 @RequiredArgsConstructor

@@ -20,8 +20,8 @@ import places.service.AuthManager;
 @RequestMapping(value = REST_URL)
 public class AuthController {
 
-    public static final String REGISTER = "/register";
-    public static final String LOGIN = "/login";
+    public static final String REGISTER = "/auth/register";
+    public static final String LOGIN = "/auth/login";
 
     @Autowired
     private AuthManager authManager;

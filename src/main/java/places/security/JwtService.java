@@ -1,4 +1,4 @@
-package places.service;
+package places.security;
 
 import places.model.User;
 
