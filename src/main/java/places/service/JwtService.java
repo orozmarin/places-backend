@@ -1,8 +1,8 @@
-package places.repository.qdls;
+package places.service;
 
 import places.model.User;
 
-public interface JwtServiceCustom {
+public interface JwtService {
 
     String generateToken(User user);
 
