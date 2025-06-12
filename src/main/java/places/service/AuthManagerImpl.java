@@ -8,15 +8,15 @@ import places.model.LoginRequest;
 import places.model.RegisterRequest;
 import places.model.User;
 import places.model.User.UserStatus;
-import places.repository.JwtRepository;
 import places.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class AuthManagerImpl implements AuthManager {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtRepository jwtService;
+    private final JwtService jwtService;
 
     @Override
     public AuthResponse login(LoginRequest request) {

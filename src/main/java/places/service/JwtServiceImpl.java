@@ -1,18 +1,18 @@
-package places.repository.qdls;
+package places.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import places.model.User;
 
 @Component
-@RequiredArgsConstructor
-public class JwtServiceCustomImpl implements JwtServiceCustom {
+@Slf4j
+public class JwtServiceImpl implements JwtService {
 
     private static final long EXPIRATION_MS = 1000 * 60 * 60 * 24;
     @Value("${jwt.secret}")
