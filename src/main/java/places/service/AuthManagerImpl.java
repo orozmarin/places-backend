@@ -29,7 +29,7 @@ public class AuthManagerImpl implements AuthManager {
         }
 
         String token = jwtService.generateToken(user);
-        return new AuthResponse(token, user.getEmail(), user.getId().toString());
+        return new AuthResponse(token, user);
     }
 
     @Override
