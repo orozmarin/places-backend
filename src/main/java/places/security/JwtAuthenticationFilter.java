@@ -29,37 +29,41 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
 
-        // Check for Bearer token
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwt = authHeader.substring(7); // Remove "Bearer "
-        userEmail = jwtService.extractEmail(jwt); // <== uses your existing extractEmail()
+        final String jwt = authHeader.substring(7); // Remove "Bearer "
 
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Load user details from repository
-            User userDetails = userRepository.findByEmail(userEmail).orElse(null);
-            if (userDetails != null && jwtService.isTokenValid(jwt, userDetails)) {
-                // Authenticate the user
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                null
-                        );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        try {
+            final String userEmail = jwtService.extractEmail(jwt);
 
-                // Save to context
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                User userDetails = userRepository.findByEmail(userEmail).orElse(null);
+
+                if (userDetails != null && jwtService.isTokenValid(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            null
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
-        }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            // Token has expired — return 401
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } catch (io.jsonwebtoken.JwtException e) {
+            // Any other JWT-related issue — return 401
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
     }
+
 }
 

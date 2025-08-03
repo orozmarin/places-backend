@@ -17,6 +17,8 @@ public class Place {
 
     @Id
     private String id;
+    private String userId;
+
     private String name;
     private String address;
     private String city;
