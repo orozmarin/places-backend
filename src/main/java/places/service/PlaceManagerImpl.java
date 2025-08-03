@@ -1,6 +1,5 @@
 package places.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class PlaceManagerImpl implements PlaceManager {
     }
 
     @Override
-    public List<Place> findFavoritePlaces(){
+    public List<Place> findFavoritePlaces() {
         return placeRepository.findByIsFavorite(true);
     }
 
