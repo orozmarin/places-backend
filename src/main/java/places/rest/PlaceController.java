@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlaceController {
 
     public static final String SAVE_OR_UPDATE_PLACE = "/places/save-or-update";
-    public static final String FIND_ALL_PLACES = "/places/find";
+    public static final String FIND_ALL_PLACES = "/places/find/{userId}";
     public static final String DELETE_PLACE = "/places/delete/{placeId}";
-    public static final String FIND_FAVORITE_PLACES = "/places/find/favorites";
+    public static final String FIND_FAVORITE_PLACES = "/places/find/favorites/{userId}";
 
     @Autowired
     private PlaceManager placeManager;
@@ -37,8 +37,8 @@ public class PlaceController {
     }
 
     @GetMapping(value = FIND_ALL_PLACES)
-    public List<Place> getPlaces(@RequestBody PlaceSearchForm placeSearchForm) {
-        return placeManager.findAllPlaces(placeSearchForm);
+    public List<Place> getPlaces(@RequestBody PlaceSearchForm placeSearchForm, @PathVariable String userId) {
+        return placeManager.findAllPlaces(placeSearchForm, userId);
     }
 
     @PostMapping(value = DELETE_PLACE)
@@ -47,8 +47,8 @@ public class PlaceController {
     }
 
     @GetMapping(value = FIND_FAVORITE_PLACES)
-    public List<Place> getFavoritedPlaces() {
-        return placeManager.findFavoritePlaces();
+    public List<Place> getFavoritedPlaces(@PathVariable String userId) {
+        return placeManager.findFavoritePlaces(userId);
     }
 
 }

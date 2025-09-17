@@ -10,5 +10,5 @@ import places.repository.qdls.PlaceRepositoryCustom;
 @Repository
 public interface PlaceRepository extends MongoRepository<Place, String>, PlaceRepositoryCustom {
 
-    List<Place> findByIsFavorite(Boolean isFavorite);
+    List<Place> findByUserIdAndIsFavorite(String userId, Boolean isFavorite);
 }
