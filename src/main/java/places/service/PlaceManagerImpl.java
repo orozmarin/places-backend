@@ -25,14 +25,15 @@ public class PlaceManagerImpl implements PlaceManager {
     }
 
     @Override
-    public List<Place> findAllPlaces(PlaceSearchForm placeSearchForm) {
-        return placeRepository.findPlacesBySearchForm(placeSearchForm);
+    public List<Place> findAllPlaces(PlaceSearchForm placeSearchForm, String userId) {
+        return placeRepository.findPlacesBySearchForm(placeSearchForm, userId);
     }
 
     @Override
-    public List<Place> findFavoritePlaces() {
-        return placeRepository.findByIsFavorite(true);
+    public List<Place> findFavoritePlaces(String userId) {
+        return placeRepository.findByUserIdAndIsFavorite(userId, true);
     }
+
 
     @Override
     public String deletePlace(String placeId) {

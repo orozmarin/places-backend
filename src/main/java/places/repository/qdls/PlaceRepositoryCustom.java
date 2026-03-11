@@ -6,6 +6,6 @@ import places.model.PlaceSearchForm;
 
 public interface PlaceRepositoryCustom {
 
-    List<Place> findPlacesBySearchForm(PlaceSearchForm placeSearchForm);
+    List<Place> findPlacesBySearchForm(PlaceSearchForm placeSearchForm, String userId);
 
 }
