@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Component;
 import places.model.Place;
 import places.model.PlaceSearchForm;
@@ -20,7 +21,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public List<Place> findPlacesBySearchForm(PlaceSearchForm placeSearchForm) {
+    public List<Place> findPlacesBySearchForm(PlaceSearchForm placeSearchForm, String userId) {
         List<Sort.Order> orders = new ArrayList<>();
 
         switch (placeSearchForm.getSortingMethod()) {
@@ -47,6 +48,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
         }
 
         Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("userId").is(userId)),
                 Aggregation.sort(Sort.by(orders))
         );
 

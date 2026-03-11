@@ -31,6 +31,7 @@ public class User implements Serializable {
     private Sex sex;
     private LocalDate dateOfBirth;
     private UserStatus status;
+    private String profileImageUrl;
 
     public String getFullName() {
         return this.firstName + " " + this.lastName;
