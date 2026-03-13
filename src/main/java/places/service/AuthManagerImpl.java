@@ -39,11 +39,21 @@ public class AuthManagerImpl implements AuthManager {
             throw new RuntimeException("Email already in use");
         }
 
+        if (request.getUsername() != null && !request.getUsername().isBlank()) {
+            userRepository.findByUsername(request.getUsername()).ifPresent(u -> {
+                throw new RuntimeException("Username already taken");
+            });
+        }
+
+        String tag = java.util.UUID.randomUUID().toString().replaceAll("-", "").substring(0, 4).toUpperCase();
+
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .username(request.getUsername())
+                .tag(tag)
                 .status(UserStatus.ACTIVE)
                 .sex(request.getSex())
                 .dateOfBirth(request.getDateOfBirth())

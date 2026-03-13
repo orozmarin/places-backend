@@ -27,6 +27,8 @@ public class User implements Serializable {
 
     private String firstName;
     private String lastName;
+    private String username;
+    private String tag;
 
     private Sex sex;
     private LocalDate dateOfBirth;
