@@ -3,6 +3,7 @@ package places.rest;
 import static places.constants.Constants.REST_URL;
 
 import places.model.Place;
+import places.model.PlaceResponse;
 import places.model.PlaceSearchForm;
 import places.service.PlaceManager;
 import java.util.List;
@@ -26,18 +27,19 @@ public class PlaceController {
     public static final String FIND_ALL_PLACES = "/places/find/{userId}";
     public static final String DELETE_PLACE = "/places/delete/{placeId}";
     public static final String FIND_FAVORITE_PLACES = "/places/find/favorites/{userId}";
+    public static final String FIND_SHARED_PLACES = "/places/find/shared/{userId}";
 
     @Autowired
     private PlaceManager placeManager;
 
     @PostMapping(value = SAVE_OR_UPDATE_PLACE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Place saveOrUpdatePlace(@RequestBody Place place) {
+    public PlaceResponse saveOrUpdatePlace(@RequestBody Place place) {
         return placeManager.saveOrUpdatePlace(place);
     }
 
     @GetMapping(value = FIND_ALL_PLACES)
-    public List<Place> getPlaces(@RequestBody PlaceSearchForm placeSearchForm, @PathVariable String userId) {
+    public List<PlaceResponse> getPlaces(@RequestBody PlaceSearchForm placeSearchForm, @PathVariable String userId) {
         return placeManager.findAllPlaces(placeSearchForm, userId);
     }
 
@@ -47,8 +49,12 @@ public class PlaceController {
     }
 
     @GetMapping(value = FIND_FAVORITE_PLACES)
-    public List<Place> getFavoritedPlaces(@PathVariable String userId) {
+    public List<PlaceResponse> getFavoritedPlaces(@PathVariable String userId) {
         return placeManager.findFavoritePlaces(userId);
     }
 
+    @GetMapping(value = FIND_SHARED_PLACES)
+    public List<PlaceResponse> getSharedPlaces(@PathVariable String userId) {
+        return placeManager.findSharedPlaces(userId);
+    }
 }

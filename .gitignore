@@ -9,3 +9,9 @@
 .idea/misc.xml
 .idea/vcs.xml
 .idea/dataSources.local.xml
+
+# OS
+.DS_Store
+
+# Claude local settings
+.claude/settings.local.json
