@@ -18,6 +18,7 @@ import places.model.Rating;
 import places.model.User;
 import places.model.UserVisit;
 import places.model.VisitInvitation;
+import places.model.VisitInvitationDto;
 import places.service.VisitInvitationManager;
 
 @Slf4j
@@ -42,7 +43,7 @@ public class VisitController {
     }
 
     @GetMapping(value = GET_PENDING_INVITATIONS)
-    public List<VisitInvitation> getPendingInvitations(@PathVariable String userId) {
+    public List<VisitInvitationDto> getPendingInvitations(@PathVariable String userId) {
         return visitInvitationManager.getPendingInvitations(userId);
     }
 
