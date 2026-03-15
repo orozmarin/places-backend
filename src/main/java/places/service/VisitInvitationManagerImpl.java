@@ -12,8 +12,10 @@ import places.model.InvitationStatus;
 import places.model.Place;
 import places.model.PlaceResponse;
 import places.model.Rating;
+import places.model.User;
 import places.model.UserVisit;
 import places.model.VisitInvitation;
+import places.model.VisitInvitationDto;
 import places.model.VisitStatus;
 import places.repository.FriendshipRepository;
 import places.repository.PlaceRepository;
@@ -67,8 +69,24 @@ public class VisitInvitationManagerImpl implements VisitInvitationManager {
     }
 
     @Override
-    public List<VisitInvitation> getPendingInvitations(String userId) {
-        return visitInvitationRepository.findByInviteeIdAndStatus(userId, InvitationStatus.PENDING);
+    public List<VisitInvitationDto> getPendingInvitations(String userId) {
+        return visitInvitationRepository.findByInviteeIdAndStatus(userId, InvitationStatus.PENDING)
+                .stream()
+                .map(inv -> {
+                    User inviter = userRepository.findById(inv.getInviterId()).orElse(null);
+                    return VisitInvitationDto.builder()
+                            .id(inv.getId())
+                            .placeId(inv.getPlaceId())
+                            .placeName(inv.getPlaceName())
+                            .inviterId(inv.getInviterId())
+                            .inviterName(inviter != null ? inviter.getFullName() : null)
+                            .inviterProfileImageUrl(inviter != null ? inviter.getProfileImageUrl() : null)
+                            .inviteeId(inv.getInviteeId())
+                            .status(inv.getStatus())
+                            .createdAt(inv.getCreatedAt())
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
