@@ -14,4 +14,5 @@ public class CoVisitor {
     private String firstName;
     private String lastName;
     private String profileImageUrl;
+    private Rating rating;
 }

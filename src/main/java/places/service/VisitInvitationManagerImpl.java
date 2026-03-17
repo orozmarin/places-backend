@@ -1,6 +1,7 @@
 package places.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -164,16 +165,34 @@ public class VisitInvitationManagerImpl implements VisitInvitationManager {
         List<UserVisit> visitedVisits = userVisitRepository
                 .findByPlaceIdAndStatus(placeId, VisitStatus.VISITED);
 
-        List<CoVisitor> coVisitors = visitedVisits.stream()
-                .map(v -> userRepository.findById(v.getUserId()).orElse(null))
-                .filter(user -> user != null)
-                .map(user -> CoVisitor.builder()
-                        .userId(user.getId())
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .profileImageUrl(user.getProfileImageUrl())
-                        .build())
-                .collect(Collectors.toList());
+        List<CoVisitor> coVisitors = new ArrayList<>(visitedVisits.stream()
+                .map(v -> {
+                    var user = userRepository.findById(v.getUserId()).orElse(null);
+                    if (user == null) return null;
+                    return CoVisitor.builder()
+                            .userId(user.getId())
+                            .firstName(user.getFirstName())
+                            .lastName(user.getLastName())
+                            .profileImageUrl(user.getProfileImageUrl())
+                            .rating(v.getRating())
+                            .build();
+                })
+                .filter(cv -> cv != null)
+                .collect(Collectors.toList()));
+
+        // Include place creator if they have no UserVisit
+        boolean creatorInList = coVisitors.stream().anyMatch(cv -> place.getUserId().equals(cv.getUserId()));
+        if (!creatorInList) {
+            userRepository.findById(place.getUserId()).ifPresent(creator ->
+                    coVisitors.add(CoVisitor.builder()
+                            .userId(creator.getId())
+                            .firstName(creator.getFirstName())
+                            .lastName(creator.getLastName())
+                            .profileImageUrl(creator.getProfileImageUrl())
+                            .rating(place.getRating())
+                            .build())
+            );
+        }
 
         return PlaceResponse.fromPlace(place, coVisitors);
     }
