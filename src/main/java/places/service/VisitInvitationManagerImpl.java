@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import places.model.CoVisitor;
 import places.model.FriendshipStatus;
 import places.model.InvitationStatus;
@@ -130,6 +132,37 @@ public class VisitInvitationManagerImpl implements VisitInvitationManager {
 
         List<UserVisit> visitedVisits = userVisitRepository
                 .findByPlaceIdAndStatus(place.getId(), VisitStatus.VISITED);
+
+        List<CoVisitor> coVisitors = visitedVisits.stream()
+                .map(v -> userRepository.findById(v.getUserId()).orElse(null))
+                .filter(user -> user != null)
+                .map(user -> CoVisitor.builder()
+                        .userId(user.getId())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .profileImageUrl(user.getProfileImageUrl())
+                        .build())
+                .collect(Collectors.toList());
+
+        return PlaceResponse.fromPlace(place, coVisitors);
+    }
+
+    @Override
+    public PlaceResponse removeCoVisitor(String placeId, String coVisitorUserId, String requestingUserId) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new RuntimeException("Place not found"));
+
+        boolean isOwner = place.getUserId().equals(requestingUserId);
+        boolean isSelf = coVisitorUserId.equals(requestingUserId);
+
+        if (!isOwner && !isSelf) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not authorized to remove this co-visitor");
+        }
+
+        userVisitRepository.deleteByPlaceIdAndUserId(placeId, coVisitorUserId);
+
+        List<UserVisit> visitedVisits = userVisitRepository
+                .findByPlaceIdAndStatus(placeId, VisitStatus.VISITED);
 
         List<CoVisitor> coVisitors = visitedVisits.stream()
                 .map(v -> userRepository.findById(v.getUserId()).orElse(null))

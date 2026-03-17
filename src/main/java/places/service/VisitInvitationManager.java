@@ -13,4 +13,5 @@ public interface VisitInvitationManager {
     UserVisit acceptInvitation(String invitationId);
     void declineInvitation(String invitationId);
     PlaceResponse rateVisit(String visitId, Rating rating);
+    PlaceResponse removeCoVisitor(String placeId, String coVisitorUserId, String requestingUserId);
 }

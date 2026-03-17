@@ -31,6 +31,7 @@ public class VisitController {
     public static final String ACCEPT_INVITATION = "/visits/invitations/{invitationId}/accept";
     public static final String DECLINE_INVITATION = "/visits/invitations/{invitationId}/decline";
     public static final String RATE_VISIT = "/visits/{visitId}/rate";
+    public static final String REMOVE_CO_VISITOR = "/visits/{placeId}/co-visitors/{coVisitorUserId}/remove";
 
     @Autowired
     private VisitInvitationManager visitInvitationManager;
@@ -60,5 +61,11 @@ public class VisitController {
     @PostMapping(value = RATE_VISIT)
     public PlaceResponse rateVisit(@PathVariable String visitId, @RequestBody Rating rating) {
         return visitInvitationManager.rateVisit(visitId, rating);
+    }
+
+    @PostMapping(value = REMOVE_CO_VISITOR)
+    public PlaceResponse removeCoVisitor(@PathVariable String placeId, @PathVariable String coVisitorUserId) {
+        User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return visitInvitationManager.removeCoVisitor(placeId, coVisitorUserId, loggedUser.getId());
     }
 }
