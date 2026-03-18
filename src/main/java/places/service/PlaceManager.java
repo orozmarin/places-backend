@@ -10,5 +10,6 @@ public interface PlaceManager {
     List<PlaceResponse> findAllPlaces(PlaceSearchForm placeSearchForm, String userId);
     List<PlaceResponse> findFavoritePlaces(String userId);
     List<PlaceResponse> findSharedPlaces(String userId);
-    String deletePlace(String placeId);
+    String deletePlace(String placeId, String requestingUserId);
+    void acknowledgeOwnershipTransfer(String placeId);
 }

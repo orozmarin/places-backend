@@ -34,6 +34,8 @@ public class PlaceResponse {
     private Boolean isFavorite;
     private List<CoVisitor> coVisitors;
     private String visitId;
+    private String ownershipTransferredFromName;
+    private LocalDateTime ownershipTransferredAt;
 
     public static PlaceResponse fromPlace(Place place, List<CoVisitor> coVisitors) {
         return PlaceResponse.builder()
@@ -57,6 +59,8 @@ public class PlaceResponse {
                 .visitedAt(place.getVisitedAt())
                 .isFavorite(place.getIsFavorite())
                 .coVisitors(coVisitors)
+                .ownershipTransferredFromName(place.getOwnershipTransferredFromName())
+                .ownershipTransferredAt(place.getOwnershipTransferredAt())
                 .build();
     }
 }

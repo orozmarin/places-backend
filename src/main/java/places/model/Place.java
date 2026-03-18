@@ -37,6 +37,9 @@ public class Place {
     private LocalDateTime visitedAt;
     private Boolean isFavorite;
 
+    private String ownershipTransferredFromName;
+    private LocalDateTime ownershipTransferredAt;
+
     public Place() {
     }
 }
