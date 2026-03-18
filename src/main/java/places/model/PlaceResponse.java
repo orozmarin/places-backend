@@ -33,6 +33,7 @@ public class PlaceResponse {
     private LocalDateTime visitedAt;
     private Boolean isFavorite;
     private List<CoVisitor> coVisitors;
+    private String visitId;
 
     public static PlaceResponse fromPlace(Place place, List<CoVisitor> coVisitors) {
         return PlaceResponse.builder()

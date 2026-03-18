@@ -63,6 +63,7 @@ public class PlaceManagerImpl implements PlaceManager {
                     if (place == null) return null;
                     PlaceResponse response = PlaceResponse.fromPlace(place, assembleCoVisitors(place.getId()));
                     response.setRating(myVisit.getRating());
+                    response.setVisitId(myVisit.getId());
                     return response;
                 })
                 .filter(r -> r != null)
