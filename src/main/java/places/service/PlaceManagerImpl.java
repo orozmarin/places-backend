@@ -1,6 +1,8 @@
 package places.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -71,9 +73,47 @@ public class PlaceManagerImpl implements PlaceManager {
     }
 
     @Override
-    public String deletePlace(String placeId) {
-        placeRepository.deleteById(placeId);
-        return "Place " + placeId + " deleted from database!";
+    public String deletePlace(String placeId, String requestingUserId) {
+        Place place = placeRepository.findById(placeId)
+                .orElseThrow(() -> new RuntimeException("Place not found: " + placeId));
+
+        if (!place.getUserId().equals(requestingUserId)) {
+            throw new RuntimeException("Not authorized to delete this place");
+        }
+
+        List<UserVisit> coVisitorVisits = userVisitRepository.findByPlaceIdAndStatus(placeId, VisitStatus.VISITED);
+        coVisitorVisits.sort(Comparator.comparing(UserVisit::getVisitedAt,
+                Comparator.nullsLast(Comparator.naturalOrder())));
+
+        if (coVisitorVisits.isEmpty()) {
+            userVisitRepository.deleteByPlaceId(placeId);
+            placeRepository.deleteById(placeId);
+            return "DELETED";
+        }
+
+        UserVisit newOwnerVisit = coVisitorVisits.get(0);
+        String previousHostName = userRepository.findById(requestingUserId)
+                .map(u -> u.getFirstName() + " " + u.getLastName())
+                .orElse("Unknown");
+
+        place.setUserId(newOwnerVisit.getUserId());
+        place.setRating(newOwnerVisit.getRating());
+        place.setOwnershipTransferredFromName(previousHostName);
+        place.setOwnershipTransferredAt(LocalDateTime.now());
+        placeRepository.save(place);
+
+        userVisitRepository.deleteByPlaceIdAndUserId(placeId, newOwnerVisit.getUserId());
+
+        return "TRANSFERRED";
+    }
+
+    @Override
+    public void acknowledgeOwnershipTransfer(String placeId) {
+        placeRepository.findById(placeId).ifPresent(place -> {
+            place.setOwnershipTransferredFromName(null);
+            place.setOwnershipTransferredAt(null);
+            placeRepository.save(place);
+        });
     }
 
     private List<CoVisitor> assembleCoVisitors(String placeId) {

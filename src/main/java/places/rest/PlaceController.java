@@ -25,7 +25,8 @@ public class PlaceController {
 
     public static final String SAVE_OR_UPDATE_PLACE = "/places/save-or-update";
     public static final String FIND_ALL_PLACES = "/places/find/{userId}";
-    public static final String DELETE_PLACE = "/places/delete/{placeId}";
+    public static final String DELETE_PLACE = "/places/delete/{placeId}/{requestingUserId}";
+    public static final String ACKNOWLEDGE_TRANSFER = "/places/{placeId}/acknowledge-transfer";
     public static final String FIND_FAVORITE_PLACES = "/places/find/favorites/{userId}";
     public static final String FIND_SHARED_PLACES = "/places/find/shared/{userId}";
 
@@ -44,8 +45,13 @@ public class PlaceController {
     }
 
     @PostMapping(value = DELETE_PLACE)
-    public String deletePLace(@PathVariable String placeId) {
-        return placeManager.deletePlace(placeId);
+    public String deletePLace(@PathVariable String placeId, @PathVariable String requestingUserId) {
+        return placeManager.deletePlace(placeId, requestingUserId);
+    }
+
+    @PostMapping(value = ACKNOWLEDGE_TRANSFER)
+    public void acknowledgeOwnershipTransfer(@PathVariable String placeId) {
+        placeManager.acknowledgeOwnershipTransfer(placeId);
     }
 
     @GetMapping(value = FIND_FAVORITE_PLACES)

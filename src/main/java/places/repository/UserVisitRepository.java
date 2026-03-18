@@ -12,4 +12,5 @@ public interface UserVisitRepository extends MongoRepository<UserVisit, String> 
     List<UserVisit> findByUserIdAndStatus(String userId, VisitStatus status);
     boolean existsByPlaceIdAndUserId(String placeId, String userId);
     void deleteByPlaceIdAndUserId(String placeId, String userId);
+    void deleteByPlaceId(String placeId);
 }
