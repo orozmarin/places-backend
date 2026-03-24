@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
+import places.model.UpdateUserRequest;
 import places.model.User;
 import places.service.UserManager;
 
@@ -24,6 +27,7 @@ import places.service.UserManager;
 public class UserController {
 
     public static final String UPLOAD_PROFILE_IMAGE = "/user/{userId}/upload-profile-image";
+    public static final String UPDATE_USER = "/user/{userId}";
     public static final String SEARCH_USERS = "/user/search";
 
     @Autowired
@@ -35,6 +39,12 @@ public class UserController {
             @PathVariable String userId) throws IOException {
         String url = userManager.updateProfileImage(userId, file);
         return ResponseEntity.ok(url);
+    }
+
+    @PatchMapping(value = UPDATE_USER)
+    public ResponseEntity<User> updateUser(@PathVariable String userId, @RequestBody UpdateUserRequest request) {
+        User updatedUser = userManager.updateUser(userId, request);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping(value = SEARCH_USERS)

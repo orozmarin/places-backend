@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import places.model.UpdateUserRequest;
 import places.model.User;
 import places.repository.UserRepository;
 
@@ -39,6 +40,26 @@ public class UserManagerImpl implements UserManager {
         userRepository.save(user);
 
         return url;
+    }
+
+    @Override
+    public User updateUser(String userId, UpdateUserRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (request.getUsername() != null && !request.getUsername().equals(user.getUsername())) {
+            if (userRepository.existsByUsernameAndIdNot(request.getUsername(), userId)) {
+                throw new RuntimeException("Username is already taken");
+            }
+            user.setUsername(request.getUsername());
+        }
+
+        if (request.getFirstName() != null) user.setFirstName(request.getFirstName());
+        if (request.getLastName() != null) user.setLastName(request.getLastName());
+        if (request.getSex() != null) user.setSex(request.getSex());
+        if (request.getDateOfBirth() != null) user.setDateOfBirth(request.getDateOfBirth());
+
+        return userRepository.save(user);
     }
 
     @Override
