@@ -9,3 +9,13 @@
 .idea/misc.xml
 .idea/vcs.xml
 .idea/dataSources.local.xml
+
+# OS
+.DS_Store
+
+# Secrets — never commit
+src/main/resources/application.properties
+src/main/resources/application.yaml
+
+# Claude local settings
+.claude/settings.local.json
