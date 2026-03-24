@@ -1,13 +1,15 @@
 package places.service;
 
 import places.model.Place;
+import places.model.PlaceResponse;
 import java.util.List;
 import places.model.PlaceSearchForm;
 
 public interface PlaceManager {
-    Place saveOrUpdatePlace(Place place);
-    List<Place> findAllPlaces(PlaceSearchForm placeSearchForm, String userId);
-    List<Place> findFavoritePlaces(String userId);
-    String deletePlace(String placeId);
-
+    PlaceResponse saveOrUpdatePlace(Place place);
+    List<PlaceResponse> findAllPlaces(PlaceSearchForm placeSearchForm, String userId);
+    List<PlaceResponse> findFavoritePlaces(String userId);
+    List<PlaceResponse> findSharedPlaces(String userId);
+    String deletePlace(String placeId, String requestingUserId);
+    void acknowledgeOwnershipTransfer(String placeId);
 }
