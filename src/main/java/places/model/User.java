@@ -33,6 +33,7 @@ public class User implements Serializable {
     private LocalDate dateOfBirth;
     private UserStatus status;
     private String profileImageUrl;
+    private AuthProvider authProvider;
 
     public String getFullName() {
         return this.firstName + " " + this.lastName;
@@ -50,5 +51,11 @@ public class User implements Serializable {
         MALE,
         FEMALE,
         UNDEFINED
+    }
+
+    public enum AuthProvider {
+        EMAIL,
+        GOOGLE,
+        APPLE
     }
 }
