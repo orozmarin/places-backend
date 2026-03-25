@@ -23,7 +23,7 @@ public class AuthController {
 
     public static final String REGISTER = "/auth/register";
     public static final String LOGIN = "/auth/login";
-    public static final String SOCIAL_LOGIN = "/auth/social-login";
+    public static final String SOCIAL_LOGIN = "/auth/social";
 
     @Autowired
     private AuthManager authManager;

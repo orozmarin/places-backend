@@ -1,16 +1,18 @@
 package places.service;
 
-import java.util.Map;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import places.model.AuthResponse;
 import places.model.LoginRequest;
 import places.model.RegisterRequest;
 import places.model.SocialLoginRequest;
 import places.model.User;
+import places.model.User.AuthProvider;
 import places.model.User.UserStatus;
 import places.repository.UserRepository;
 import places.security.JwtService;
@@ -19,12 +21,12 @@ import places.security.JwtService;
 @RequiredArgsConstructor
 public class AuthManagerImpl implements AuthManager {
 
-    private static final String GOOGLE_TOKENINFO_URL = "https://oauth2.googleapis.com/tokeninfo?id_token=";
+    private static final String GOOGLE_JWKS_URI = "https://www.googleapis.com/oauth2/v3/certs";
+    private static final String APPLE_JWKS_URI = "https://appleid.apple.com/auth/keys";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final RestTemplate restTemplate;
 
     @Override
     public AuthResponse login(LoginRequest request) {
@@ -34,6 +36,41 @@ public class AuthManagerImpl implements AuthManager {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
+
+        String token = jwtService.generateToken(user);
+        return new AuthResponse(token, user);
+    }
+
+    @Override
+    public AuthResponse socialLogin(SocialLoginRequest request) {
+        String jwksUri = request.getProvider() == AuthProvider.GOOGLE ? GOOGLE_JWKS_URI : APPLE_JWKS_URI;
+
+        JwtDecoder decoder = NimbusJwtDecoder.withJwkSetUri(jwksUri).build();
+        Jwt jwt = decoder.decode(request.getIdToken());
+
+        String email = jwt.getClaimAsString("email");
+        if (email == null) {
+            throw new RuntimeException("Email not present in ID token");
+        }
+
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            String firstName = jwt.getClaimAsString("given_name");
+            String lastName = jwt.getClaimAsString("family_name");
+            if (firstName == null) firstName = jwt.getClaimAsString("name");
+            String picture = jwt.getClaimAsString("picture");
+            String tag = generateUniqueTag();
+
+            User newUser = User.builder()
+                    .email(email)
+                    .firstName(firstName != null ? firstName : "")
+                    .lastName(lastName != null ? lastName : "")
+                    .tag(tag)
+                    .profileImageUrl(picture)
+                    .status(UserStatus.WAITING_FIRST_LOGIN)
+                    .authProvider(request.getProvider())
+                    .build();
+            return userRepository.save(newUser);
+        });
 
         String token = jwtService.generateToken(user);
         return new AuthResponse(token, user);
@@ -61,43 +98,6 @@ public class AuthManagerImpl implements AuthManager {
                 .build();
 
         userRepository.save(user);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public AuthResponse socialLogin(SocialLoginRequest request) {
-        Map<String, Object> claims = restTemplate.getForObject(
-                GOOGLE_TOKENINFO_URL + request.getIdToken(), Map.class);
-
-        if (claims == null) {
-            throw new RuntimeException("Failed to verify Google token");
-        }
-
-        String email = (String) claims.get("email");
-        if (email == null) {
-            throw new RuntimeException("No email in Google token");
-        }
-
-        User user = userRepository.findByEmail(email).orElseGet(() -> {
-            String firstName = (String) claims.getOrDefault("given_name", "");
-            String lastName = (String) claims.getOrDefault("family_name", "");
-            String picture = (String) claims.get("picture");
-            String tag = generateUniqueTag();
-
-            User newUser = User.builder()
-                    .email(email)
-                    .firstName(firstName)
-                    .lastName(lastName)
-                    .tag(tag)
-                    .profileImageUrl(picture)
-                    .status(UserStatus.WAITING_FIRST_LOGIN)
-                    .build();
-
-            return userRepository.save(newUser);
-        });
-
-        String token = jwtService.generateToken(user);
-        return new AuthResponse(token, user);
     }
 
     private String generateUniqueTag() {

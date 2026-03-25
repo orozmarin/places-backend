@@ -32,10 +32,10 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 orders.add(Sort.Order.desc("name"));
                 break;
             case RATING_ASC:
-                orders.add(Sort.Order.asc("placeRating"));
+                orders.add(Sort.Order.asc("rating.placeRating"));
                 break;
             case RATING_DESC:
-                orders.add(Sort.Order.desc("placeRating"));
+                orders.add(Sort.Order.desc("rating.placeRating"));
                 break;
             case DATE_ASC:
                 orders.add(Sort.Order.asc("visitedAt"));

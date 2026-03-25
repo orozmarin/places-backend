@@ -23,7 +23,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/rest/auth/login", "/rest/auth/register", "/rest/auth/social-login").permitAll()
+                        .requestMatchers("/rest/auth/login", "/rest/auth/register", "/rest/auth/social").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -34,7 +35,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Used for encoding passwords in register/login
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
