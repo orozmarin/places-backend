@@ -5,12 +5,8 @@ import lombok.Data;
 import places.model.User.Sex;
 
 @Data
-public class RegisterRequest {
-    private String email;
-    private String password;
-    private String firstName;
-    private String lastName;
+public class UpdateUserRequest {
     private String username;
-    private Sex sex;
     private LocalDate dateOfBirth;
+    private Sex sex;
 }

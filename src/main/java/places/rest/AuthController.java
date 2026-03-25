@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import places.model.AuthResponse;
 import places.model.LoginRequest;
 import places.model.RegisterRequest;
+import places.model.SocialLoginRequest;
 import places.service.AuthManager;
 
 @Slf4j
@@ -22,6 +23,7 @@ public class AuthController {
 
     public static final String REGISTER = "/auth/register";
     public static final String LOGIN = "/auth/login";
+    public static final String SOCIAL_LOGIN = "/auth/social-login";
 
     @Autowired
     private AuthManager authManager;
@@ -35,5 +37,10 @@ public class AuthController {
     @PostMapping(value = LOGIN)
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authManager.login(request));
+    }
+
+    @PostMapping(value = SOCIAL_LOGIN)
+    public ResponseEntity<AuthResponse> socialLogin(@RequestBody SocialLoginRequest request) {
+        return ResponseEntity.ok(authManager.socialLogin(request));
     }
 }
