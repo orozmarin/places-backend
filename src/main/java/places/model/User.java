@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
-import places.utils.UtilsHelper;
 
 @Builder
 @AllArgsConstructor
@@ -27,25 +26,17 @@ public class User implements Serializable {
 
     private String firstName;
     private String lastName;
+    private String username;
+    private String tag;
 
     private Sex sex;
     private LocalDate dateOfBirth;
     private UserStatus status;
     private String profileImageUrl;
+    private AuthProvider authProvider;
 
     public String getFullName() {
         return this.firstName + " " + this.lastName;
-    }
-
-    public String getUserInitials() {
-        String firstNameInitial = UtilsHelper.extractFirstLetter(this.firstName);
-        String lastNameInitial = UtilsHelper.extractFirstLetter(this.lastName);
-        return firstNameInitial + lastNameInitial;
-    }
-
-
-    public String logUserData() {
-        return "User (Id:" + this.getId() + ", Name:" + this.getFullName() + ", Email:" + this.getEmail() + ") ";
     }
 
 
@@ -60,5 +51,11 @@ public class User implements Serializable {
         MALE,
         FEMALE,
         UNDEFINED
+    }
+
+    public enum AuthProvider {
+        EMAIL,
+        GOOGLE,
+        APPLE
     }
 }

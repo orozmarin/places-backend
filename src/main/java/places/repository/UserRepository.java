@@ -9,4 +9,7 @@ import places.model.User;
 public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
+    boolean existsByUsernameAndIdNot(String username, String id);
+    Optional<User> findByUsername(String username);
+    Optional<User> findByTag(String tag);
 }
