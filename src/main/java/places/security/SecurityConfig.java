@@ -35,7 +35,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Used for encoding passwords in register/login
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

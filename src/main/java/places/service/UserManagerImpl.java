@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import places.model.UpdateUserRequest;
 import places.model.User;
+import places.model.User.UserStatus;
 import places.repository.UserRepository;
 
 @Service
@@ -58,6 +59,13 @@ public class UserManagerImpl implements UserManager {
         if (request.getLastName() != null) user.setLastName(request.getLastName());
         if (request.getSex() != null) user.setSex(request.getSex());
         if (request.getDateOfBirth() != null) user.setDateOfBirth(request.getDateOfBirth());
+
+        if (user.getStatus() == UserStatus.WAITING_FIRST_LOGIN
+                && user.getUsername() != null
+                && user.getDateOfBirth() != null
+                && user.getSex() != null) {
+            user.setStatus(UserStatus.ACTIVE);
+        }
 
         return userRepository.save(user);
     }

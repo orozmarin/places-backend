@@ -1,5 +1,6 @@
 package places.service;
 
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -20,6 +21,9 @@ import places.security.JwtService;
 @RequiredArgsConstructor
 public class AuthManagerImpl implements AuthManager {
 
+    private static final String GOOGLE_JWKS_URI = "https://www.googleapis.com/oauth2/v3/certs";
+    private static final String APPLE_JWKS_URI = "https://appleid.apple.com/auth/keys";
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -37,9 +41,6 @@ public class AuthManagerImpl implements AuthManager {
         return new AuthResponse(token, user);
     }
 
-    private static final String GOOGLE_JWKS_URI = "https://www.googleapis.com/oauth2/v3/certs";
-    private static final String APPLE_JWKS_URI = "https://appleid.apple.com/auth/keys";
-
     @Override
     public AuthResponse socialLogin(SocialLoginRequest request) {
         String jwksUri = request.getProvider() == AuthProvider.GOOGLE ? GOOGLE_JWKS_URI : APPLE_JWKS_URI;
@@ -56,12 +57,16 @@ public class AuthManagerImpl implements AuthManager {
             String firstName = jwt.getClaimAsString("given_name");
             String lastName = jwt.getClaimAsString("family_name");
             if (firstName == null) firstName = jwt.getClaimAsString("name");
+            String picture = jwt.getClaimAsString("picture");
+            String tag = generateUniqueTag();
 
             User newUser = User.builder()
                     .email(email)
                     .firstName(firstName != null ? firstName : "")
                     .lastName(lastName != null ? lastName : "")
-                    .status(UserStatus.ACTIVE)
+                    .tag(tag)
+                    .profileImageUrl(picture)
+                    .status(UserStatus.WAITING_FIRST_LOGIN)
                     .authProvider(request.getProvider())
                     .build();
             return userRepository.save(newUser);
@@ -78,13 +83,7 @@ public class AuthManagerImpl implements AuthManager {
             throw new RuntimeException("Email already in use");
         }
 
-        if (request.getUsername() != null && !request.getUsername().isBlank()) {
-            userRepository.findByUsername(request.getUsername()).ifPresent(u -> {
-                throw new RuntimeException("Username already taken");
-            });
-        }
-
-        String tag = java.util.UUID.randomUUID().toString().replaceAll("-", "").substring(0, 4).toUpperCase();
+        String tag = generateUniqueTag();
 
         User user = User.builder()
                 .email(request.getEmail())
@@ -99,5 +98,14 @@ public class AuthManagerImpl implements AuthManager {
                 .build();
 
         userRepository.save(user);
+    }
+
+    private String generateUniqueTag() {
+        Random random = new Random();
+        String tag;
+        do {
+            tag = String.format("%04d", random.nextInt(10000));
+        } while (userRepository.existsByTag(tag));
+        return tag;
     }
 }
