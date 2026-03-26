@@ -52,6 +52,18 @@ Public routes: `POST /rest/auth/login`, `POST /rest/auth/register` — everythin
 
 When a task involves both backend and frontend changes (e.g., new API endpoint + consuming it in Flutter), read and edit files in both projects freely.
 
+## Sub-Agents
+
+Specialized agents live in `.claude/agents/`. **Always invoke the relevant sub-agent immediately** when a task maps to one of these domains — do not handle it inline first:
+
+| Agent | Domain |
+|---|---|
+| `security-auth-agent` | JWT, Spring Security, social login, AuthController |
+| `places-agent` | Place CRUD, ratings, aggregation pipeline |
+| `social-features-agent` | Friendships, visit invitations, co-visitors |
+| `user-profile-agent` | User profile, image upload, status transitions |
+| `build-and-data-agent` | Maven, pom.xml, config files, repositories, utilities |
+
 ## Additional Documentation
 
 - `.claude/docs/architectural_patterns.md` — Layer structure, interface/impl convention, security flow, custom repository pattern, DI style, model conventions
