@@ -43,6 +43,9 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
             case DATE_DESC:
                 orders.add(Sort.Order.desc("visitedAt"));
                 break;
+            case MOST_VISITS:
+                orders.add(Sort.Order.desc("visitCount"));
+                break;
             default:
                 throw new IllegalArgumentException("Invalid sorting method");
         }

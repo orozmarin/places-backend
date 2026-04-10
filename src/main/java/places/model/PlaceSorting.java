@@ -6,5 +6,6 @@ public enum PlaceSorting {
     RATING_ASC,
     RATING_DESC,
     DATE_ASC,
-    DATE_DESC
+    DATE_DESC,
+    MOST_VISITS
 }
