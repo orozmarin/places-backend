@@ -37,7 +37,7 @@ public class VisitInvitationManagerImpl implements VisitInvitationManager {
     private final UserRepository userRepository;
 
     @Override
-    public VisitInvitation sendInvitation(String inviterId, String placeId, String inviteeId) {
+    public VisitInvitation sendInvitation(String inviterId, String placeId, String inviteeId, String placeVisitId) {
         boolean areFriends = friendshipRepository
                 .findByRequesterIdAndAddresseeId(inviterId, inviteeId)
                 .map(f -> f.getStatus() == FriendshipStatus.ACCEPTED)
@@ -67,6 +67,7 @@ public class VisitInvitationManagerImpl implements VisitInvitationManager {
                 .status(InvitationStatus.PENDING)
                 .createdAt(LocalDateTime.now())
                 .build();
+        invitation.setPlaceVisitId(placeVisitId);
 
         return visitInvitationRepository.save(invitation);
     }
@@ -107,6 +108,7 @@ public class VisitInvitationManagerImpl implements VisitInvitationManager {
                 .visitedAt(LocalDateTime.now())
                 .status(VisitStatus.PENDING)
                 .build();
+        visit.setPlaceVisitId(invitation.getPlaceVisitId());
 
         return userVisitRepository.save(visit);
     }

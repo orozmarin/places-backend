@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class InviteRequest {
     private String placeId;
     private String inviteeId;
+    private String placeVisitId; // nullable
 }

@@ -8,7 +8,7 @@ import places.model.VisitInvitation;
 import places.model.VisitInvitationDto;
 
 public interface VisitInvitationManager {
-    VisitInvitation sendInvitation(String inviterId, String placeId, String inviteeId);
+    VisitInvitation sendInvitation(String inviterId, String placeId, String inviteeId, String placeVisitId);
     List<VisitInvitationDto> getPendingInvitations(String userId);
     UserVisit acceptInvitation(String invitationId);
     void declineInvitation(String invitationId);

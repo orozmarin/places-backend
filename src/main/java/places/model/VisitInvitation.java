@@ -23,4 +23,5 @@ public class VisitInvitation {
     private String inviteeId;
     private InvitationStatus status;
     private LocalDateTime createdAt;
+    private String placeVisitId; // nullable, backward compat
 }
