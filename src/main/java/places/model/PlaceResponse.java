@@ -36,6 +36,10 @@ public class PlaceResponse {
     private String visitId;
     private String ownershipTransferredFromName;
     private LocalDateTime ownershipTransferredAt;
+    private Integer visitCount;
+    private Rating averageRating;
+    private LocalDateTime latestVisitedAt;
+    private List<PlaceVisitResponse> visits; // null for list view, populated for detail
 
     public static PlaceResponse fromPlace(Place place, List<CoVisitor> coVisitors) {
         return PlaceResponse.builder()
@@ -61,6 +65,9 @@ public class PlaceResponse {
                 .coVisitors(coVisitors)
                 .ownershipTransferredFromName(place.getOwnershipTransferredFromName())
                 .ownershipTransferredAt(place.getOwnershipTransferredAt())
+                .visitCount(place.getVisitCount())
+                .averageRating(place.getAverageRating())
+                .latestVisitedAt(place.getLatestVisitedAt())
                 .build();
     }
 }
